@@ -48,7 +48,7 @@ namespace BattleShipClient
             }
             catch (ThreadAbortException ex)
             {
-                
+                System.Console.WriteLine(ex.Message);
             }
         }
         public void Close()
