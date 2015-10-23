@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Drawing;
+using BattleShipPackets;
 
 namespace BattleShipClient
 {
@@ -19,7 +21,7 @@ namespace BattleShipClient
             Victory,
             Lose
         }
-        public GameState State {get; private set;}
+        public GameState State { get; private set; }
         private TcpClient serveur;
         private Thread Attente;
         //private volatile bool gameStarted = false;
@@ -35,13 +37,13 @@ namespace BattleShipClient
             try
             {
                 NetworkStream ns = serveur.GetStream();
-                
+
                 do
                 {
                     //Console.Beep(700, 200);
                     continue;
                 } while ((String)ConnUtility.ReadAndDeserialize(ns) != "Start");
-                
+
                 //gameStarted = true;
                 State = GameState.PlacingBoat;
 
@@ -50,6 +52,23 @@ namespace BattleShipClient
             {
                 System.Console.WriteLine(ex.Message);
             }
+        }
+
+        public void EnvoiBateau()
+        {
+            ConnUtility.SerializeAndSend(serveur.GetStream(), new PosShips
+            {
+                PPorteAvion = new Point(0, 0),
+                OPorteAvion = PosShips.Orientation.Horizontale,
+                PCroiseur = new Point(0, 1),
+                OCroiseur = PosShips.Orientation.Horizontale,
+                PContreTorpilleur = new Point(0, 2),
+                OContreTorpilleur = PosShips.Orientation.Horizontale,
+                PSousMarin = new Point(0, 3),
+                OSousMarin = PosShips.Orientation.Horizontale,
+                PTorpilleur = new Point(0, 4),
+                OTorpilleur = PosShips.Orientation.Horizontale
+            });
         }
         public void Close()
         {
