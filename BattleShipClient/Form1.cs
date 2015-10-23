@@ -41,5 +41,33 @@ namespace BattleShipClient
             if (thread != null && thread.IsAlive)
                 thread.Abort();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            switch (jeu.State)
+            {
+                case Jeu.GameState.WaitingStartGame:
+                    LB_State.Text = "WaitingStartGame";
+                    break;
+                case Jeu.GameState.PlacingBoat:
+                    LB_State.Text = "PlacingBoat";
+                    break;
+                case Jeu.GameState.WaitingTurn:
+                    LB_State.Text = "WaitingTurn";
+                    break;
+                case Jeu.GameState.PlayingTurn:
+                    LB_State.Text = "PlayingTurn";
+                    break;
+                case Jeu.GameState.Victory:
+                    LB_State.Text = "Victory";
+                    break;
+                case Jeu.GameState.Lose:
+                    LB_State.Text = "Lose";
+                    break;
+                default:
+                    LB_State.Text = "WTF";
+                    break;
+            }
+        }
     }
 }

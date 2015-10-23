@@ -10,20 +10,30 @@ namespace BattleShipClient
 {
     class Jeu
     {
+        public enum GameState
+        {
+            WaitingStartGame,
+            PlacingBoat,
+            WaitingTurn,
+            PlayingTurn,
+            Victory,
+            Lose
+        }
+        public GameState State {get; private set;}
         private TcpClient serveur;
-        private Byte[] buffer = new Byte[100];
-        private volatile bool gameStarted = false;
+        private Thread Attente;
+        //private volatile bool gameStarted = false;
         public Jeu()
         {
+            State = GameState.WaitingStartGame;
             serveur = new TcpClient("P104-14", 8080);
+            Attente = new Thread(AttendreDebutPartie);
+            Attente.Start();
         }
         public void AttendreDebutPartie()
         {
             try
             {
-                String result = "";
-                //serveur.GetStream().ReadTimeout = 500;
-                serveur.GetStream().Read(buffer, 0, sizeof(char) * 10);
                 using (NetworkStream ns = serveur.GetStream())
                 {
                     do
@@ -32,7 +42,8 @@ namespace BattleShipClient
                         continue;
                     } while ((String)ConnUtility.ReadAndDeserialize(ns) != "Start");
                 }
-                gameStarted = true;
+                //gameStarted = true;
+                State = GameState.PlacingBoat;
 
             }
             catch (ThreadAbortException ex)
