@@ -18,6 +18,7 @@ namespace BattleShipClient
         public Form1()
         {
             InitializeComponent();
+            timer1.Start();
             jeu = new Jeu();
         }
 
