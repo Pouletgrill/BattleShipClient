@@ -34,26 +34,28 @@ namespace BattleShipClient
         {
             try
             {
-                using (NetworkStream ns = serveur.GetStream())
+                NetworkStream ns = serveur.GetStream();
+                
+                do
                 {
-                    do
-                    {
-                        //Console.Beep(700, 200);
-                        continue;
-                    } while ((String)ConnUtility.ReadAndDeserialize(ns) != "Start");
-                }
+                    //Console.Beep(700, 200);
+                    continue;
+                } while ((String)ConnUtility.ReadAndDeserialize(ns) != "Start");
+                
                 //gameStarted = true;
                 State = GameState.PlacingBoat;
 
             }
             catch (ThreadAbortException ex)
             {
-
+                
             }
         }
         public void Close()
         {
+            Attente.Abort();
             serveur.Close();
+
         }
     }
 }
