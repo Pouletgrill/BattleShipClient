@@ -55,7 +55,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Jeu.cs" />
-    <Compile Include="PosShips.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -98,6 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\torpilleur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BattleShipPackets\BattleShipPackets\BattleShipPackets.csproj">
+      <Project>{96ca9ca8-b97a-4d06-9cb3-3694872efe52}</Project>
+      <Name>BattleShipPackets</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
